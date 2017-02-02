@@ -1,6 +1,5 @@
 #lang racket (require eopl/eopl)
 
-
 (define-datatype dTree dTree?
   (leaf-t
    (datum number?))
