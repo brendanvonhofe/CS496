@@ -21,9 +21,8 @@
 
 (define (dTree-paths tree)
   (cases dTree tree
-    (leaf-t (datum) '(()))
-    (node-t (s l r) (append (map (lambda (list) (cons 0 list)) (dTree-paths l))
-                            (map (lambda (list) (cons 1 list)) (dTree-paths r))))))
+    (leaf-t (datum) '())
+    (node-t (s left right) (cons (list 0) (dTree-paths left)) (cons (list 1) (dTree-paths right)))))
 
 (define (dTree-perfect? tree)
   (cases dTree tree
@@ -35,16 +34,8 @@
     (leaf-t (datum) (leaf-t (g datum)))
     (node-t (s l r) (node-t (f s) (dTree-map f g l) (dTree-map f g r)))))
 
-(define (list->tree list)
-  (if (empty? list)
-      (leaf-t 0)
-      (node-t (car list) (list->tree (cdr list)) (list->tree (cdr list)))))
-
-(define (replaceLeafAt t f)
-  (if (empty? list)
-      '()
-      (leaf-t (cdar f))))
-      
+(define (list->tree )
+  (
 
 (define symbol-upcase
   (compose string->symbol (compose string-upcase symbol->string)))
@@ -54,11 +45,3 @@
 
 (define tLeft (node-t 'w (node-t 'x (leaf-t 2) (leaf-t 5)) (leaf-t 8)))
 (define tRight (node-t 'w (node-t 'x (leaf-t 2) (leaf-t 5)) (node-t 'y (leaf-t 7) (leaf-t 5))))
-(define func '(((0 0 0) . 0)
-              ((0 0 1) . 1)
-              ((0 1 0) . 1)
-              ((0 1 1) . 0)
-              ((1 0 0) . 1)
-              ((1 0 1) . 0)
-              ((1 1 0) . 0)
-              ((1 1 1) . 1)))
