@@ -1,5 +1,6 @@
 #lang racket (require eopl/eopl)
 
+;; dTree
 (define-datatype dTree dTree?
   (leaf-t
    (datum number?))
@@ -8,15 +9,17 @@
    (left dTree?)
    (right dTree?)))
 
+;; dTree -> num
 (define (dTree-size tree)
   (cases dTree tree
     (leaf-t (datum) 1)
     (node-t (s left right) (+ (+ (dTree-size left) (dTree-size right)) 1))))
 
+;; dTree 
 (define (dTree-height tree)
   (cases dTree tree
     (leaf-t (datum) 0)
-    (node-t (s left right) (max (+ (dTree-height left) 1) (+ (dTree-height right) 1)))))
+    (node-t (s left right) (max (+ (dTree-size left) 1) (+ (dTree-size right) 1)))))
 
 (define (dTree-paths tree)
   (cases dTree tree
@@ -39,10 +42,33 @@
       (leaf-t 0)
       (node-t (car list) (list->tree (cdr list)) (list->tree (cdr list)))))
 
-(define (replaceLeafAt t f)
-  (if (empty? list)
-      '()
-      (leaf-t (cdar f))))
+;;(define (replaceLeafAt2 f t)
+;;  (if (empty? f)
+;;      t
+;;      (replaceLeafAt (cdr f) (replaceLeafHelper (car f) t))))
+
+;;(define (replaceLeafHelper2 pair t)
+;;  (cases dTree t
+;;    (leaf-t (n) (leaf-t (cdr pair))
+;;    (node-t (n l r)
+;;            (if (zero? (caar pair))
+;;                (node-t n (replaceLeafHelper (cons (cdar pair) (cdr pair)) l) r)
+;;                (node-t n l (replaceLeafHelper (cons (cdar pair) (cdr pair)) r))
+;;                )))))
+
+(define (replaceLeafAt f t)
+  (if (null? (cdr f))
+      t
+      (replaceLeafAt (cdr f) (replaceLeafHelper (car (cadr f)) (cdr (cadr f)) t))))
+
+(define (replaceLeafHelper path value t)
+  (cases dTree t
+    (leaf-t (n) (leaf-t value))
+    (node-t (n l r)
+            (if (zero? (car path))
+                (node-t n (replaceLeafHelper (cdr path) value l) r)
+                (node-t n l (replaceLeafHelper (cdr path) value r))
+                ))))
       
 
 (define symbol-upcase
@@ -61,3 +87,17 @@
               ((1 0 1) . 0)
               ((1 1 0) . 0)
               ((1 1 1) . 1)))
+
+(define binFunc
+  '( (x y z) .
+             (((0 0 0) . 0)
+              ((0 0 1) . 1)
+              ((0 1 0) . 1)
+              ((0 1 1) . 0)
+              ((1 0 0) . 1)
+              ((1 0 1) . 0)
+              ((1 1 0) . 0)
+              ((1 1 1) . 1)
+              )))
+
+(define tree (list->tree '(x y z)))
