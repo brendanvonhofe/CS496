@@ -1,0 +1,1 @@
+("6.3" ("80a694655556998f252d3e7f4a4124fc6a7a1597" . "c899038d6c3b37f260dc1530b09b6e663bed84ed") #"/home/brendan/cs496/hw3_stub/data-structures.scm" #"/home/brendan/cs496/hw3_stub/drscheme-init.scm" #"/home/brendan/cs496/hw3_stub/environments.scm" #"/home/brendan/cs496/hw3_stub/lang.scm" (collects #"eopl" #"eopl.rkt"))
